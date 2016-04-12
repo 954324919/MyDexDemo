@@ -1,6 +1,7 @@
 package wangyang.zun.com.mydexdemo;
 
 import android.content.Context;
+import android.os.Environment;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -37,4 +38,27 @@ public class FileUtils {
 
         }
     }
+
+    public static boolean hasExternalStorage() {
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+    }
+
+    /**
+     * 获取缓存路径
+     *
+     * @param context
+     * @return 返回缓存文件路径
+     */
+    public static File getCacheDir(Context context) {
+        File cache;
+        if (hasExternalStorage()) {
+            cache = context.getExternalCacheDir();
+        } else {
+            cache = context.getCacheDir();
+        }
+        if (!cache.exists())
+            cache.mkdirs();
+        return cache;
+    }
+
 }
